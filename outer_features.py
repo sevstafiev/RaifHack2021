@@ -1,19 +1,25 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[9]:
+# In[30]:
 
 
 def add_extra(train, test, path = 'C:/Users/nicka/OneDrive/Рабочий стол/raifhack/estate_sber_data/'):
     '''
-    train = трейн-часть сета
-    test = тест-часть сета
-    path = путь до файлов estate_sber_data.xlsx и rosstat_cbr.xlsx
+    train = трейн дф
+    test = тест дф
+    path = путь до файлов estate_sber_data.xlsx и rosstat_cbr.xlsx (ставь None, если файл в той же директории)
     '''
-    path_estate = path + 'estate_sber_data.xlsx'
-    path_ros_cbr = path + 'rosstat_cbr.xlsx'
+    if path is None:
+        path_estate = 'estate_sber_data.xlsx'
+        path_ros_cbr = 'rosstat_cbr.xlsx'
+    else:
+        path_estate = path + 'estate_sber_data.xlsx'
+        path_ros_cbr = path + 'rosstat_cbr.xlsx'
     data1 = pd.read_excel(path_estate)
     data2 = pd.read_excel(path_ros_cbr)
+    data1 = data1.replace(0, np.nan)
+    data2 = data2.replace(0, np.nan)
     data1['year'] = data1.date.apply(lambda x: x.year)
     data1['month'] = data1.date.apply(lambda x: x.month)
     data2['year'] = data2.date.apply(lambda x: x.year)
@@ -188,6 +194,18 @@ def add_extra(train, test, path = 'C:/Users/nicka/OneDrive/Рабочий сто
                 df.loc[(df['Код'] == i) & (df['month'] == k), 'ipc_chain'] =                 data2.loc[(data2.month == 12) & (data2.year == 2019), data2.columns == i].iloc[11].values[0]
 
                 df.loc[(df['Код'] == i) & (df['month'] == k), 'interest_rate'] =                 data2.loc[(data2.month == 12) & (data2.year == 2019), data2.columns == i].iloc[12].values[0]
+            if k > 4:
+                df.loc[(df['Код'] == i) & (df['month'] == k), 'inc_per_capita'] =                 data2.loc[(data2.month == (k-4)) & (data2.year == 2020), data2.columns == i].iloc[0].values[0]
+
+                df.loc[(df['Код'] == i) & (df['month'] == k), 'invest_residue'] =                 data2.loc[(data2.month == (k-4)) & (data2.year == 2020), data2.columns == i].iloc[1].values[0]
+
+                df.loc[(df['Код'] == i) & (df['month'] == k), 'debts'] =                 data2.loc[(data2.month == (k-4)) & (data2.year == 2020), data2.columns == i].iloc[2].values[0]
+            else:
+                df.loc[(df['Код'] == i) & (df['month'] == k), 'inc_per_capita'] =                 data2.loc[(data2.month == (k+8)) & (data2.year == 2019), data2.columns == i].iloc[0].values[0]
+
+                df.loc[(df['Код'] == i) & (df['month'] == k), 'invest_residue'] =                 data2.loc[(data2.month == (k+8)) & (data2.year == 2019), data2.columns == i].iloc[1].values[0]
+
+                df.loc[(df['Код'] == i) & (df['month'] == k), 'debts'] =                 data2.loc[(data2.month == (k+8)) & (data2.year == 2019), data2.columns == i].iloc[2].values[0]
     df = df.drop(['Код', 'year', 'month'], axis = 1)
     return(df)
 
