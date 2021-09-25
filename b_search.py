@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 import typing
@@ -26,6 +26,10 @@ def b_search(train, test, with_correction = True):
     '''
     if with_correction == True:
         train.loc[train.price_type == 0, 'per_square_meter_price'] =             (train.loc[train.price_type == 0, 'per_square_meter_price'] + 13)/2.23
+        train = train.drop('price_type', axis = 1)
+        
+    train = train.drop(['date', 'data_type'], axis = 1)
+    test = test.drop(['date', 'data_type'], axis = 1)
     def deviation_metric_one_sample(y_true: typing.Union[float, int], y_pred: typing.Union[float, int]) -> float:
         """
         Реализация кастомной метрики для хакатона.
@@ -72,8 +76,7 @@ def b_search(train, test, with_correction = True):
              'bagging_temperature': Real(0.0, 1.0),
              'border_count': Integer(1, 255),
              'l2_leaf_reg': Integer(2, 30),
-             'od_type' : Categorical(['IncToDec', 'Iter']),
-             'scale_pos_weight':Real(0.01, 1.0, 'uniform'),
+             'od_type' : Categorical(['IncToDec', 'Iter'])
         }
     )
     opt.fit(train.drop('per_square_meter_price', axis = 1), train.loc[:, 'per_square_meter_price'])
