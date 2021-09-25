@@ -76,6 +76,6 @@ def b_search(train, test, with_correction = True):
              'scale_pos_weight':Real(0.01, 1.0, 'uniform'),
         }
     )
-    opt.fit(train, test)
+    opt.fit(train.drop('per_square_meter_price', axis = 1), train.loc[:, 'per_square_meter_price'])
     return(opt)
 
