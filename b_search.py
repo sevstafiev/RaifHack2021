@@ -58,7 +58,7 @@ def b_search(train, test, with_correction = True):
     )
     opt = BayesSearchCV(
         estimator = estimator,
-        scoring = make_scorer(deviation_metric, greater_is_better=False, opt),
+        scoring = make_scorer(deviation_metric, greater_is_better=False),
         cv = kf,
         n_iter=500,
         refit = True,
