@@ -8,7 +8,7 @@ Raif Hack 2021 Team Sarafanchik repo
  центробанк: https://www.cbr.ru/statistics/?CF.Search=%D1%81%D1%83%D0%B1%D1%8A%D0%B5%D0%BA%D1%82&CF.TagId=&CF.Date.Time=Any&CF.Date.DateFrom=&CF.Date.DateTo= \
  сбериндекс: https://www.sberindex.ru/ru/dashboards?partition=7 \
  ммвб: https://ru.investing.com/indices/mcx \
- \
+ 
 
 Описание: \
  number_of_supply1	- количество предложений первички, единиц \
